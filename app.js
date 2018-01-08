@@ -10,18 +10,21 @@ app.context.render = co.wrap(render({
     root:path.join(__dirname,"./assists"),
     autoescape:true,
     cache:"memory",
-    ext:"html"
+    ext:"html",
+    writeBody: false
 }));
 
 app.use(router( _ => {
     _.get("/",async ctx => {
-        // if(PORT === "8080"){
-        //     ctx.cookies.set("test","hello",{
-        //         // domain:".memeda.com"
-        //     })
-        // }
+        if(PORT === "8080"){
+            ctx.cookies.set("test","hello",{
+                // domain:".memeda.com"
+            })
+        }
         ctx.type="html";
-        ctx.body = ctx.render("index");
+        ctx.body = await ctx.render("index",{
+            PORT
+        });
     });
 }));
 
